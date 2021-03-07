@@ -8,22 +8,41 @@ import { useEffect, useState } from "react";
 
 import DashboardTopItems from './Cards/DashboardTopItem'
 import LastProduct from './Cards/DashboardLeftItem'
-import DashboardContainer from './Componentcitos/DashboardConteiner'
+import DashboardContainer from './Conteiners/DashboardConteiner'
 import DashboardRightItem from "./Cards/DashboardRightItem";
 
 
 function Dashboard(){
     const [users, setUsers] = useState([])
-    const [count, setCount] = useState()
+    const [countUsers, setCountUsers] = useState()
     useEffect(()=>{
         fetch('http://localhost:3000/api/users')
         .then(response => response.json())
         .then(data => {
-            setCount(data.meta.count)
+            setCountUsers(data.meta.count)
             setUsers(data.data.users)
         })
         
     },[])
+
+    const [products, setProducts] = useState([]);
+    const [countProducts, setCountProducts] = useState();
+    const [lastProduct, setLastProduct] = useState([]);
+    const [totalPrice, setTotalPrice] = useState();
+    const [amountCategories, setAmountCategories] = useState();
+    useEffect(()=>{
+        fetch('http://localhost:3000/api/products')
+        .then(response => response.json())
+        .then(data =>{
+            setProducts(data.data.products)
+            setCountProducts(data.meta.count)
+            setLastProduct(data.meta.lastProduct)
+            setTotalPrice(data.meta.totalPrice)
+            setAmountCategories(data.meta.amountCategories)
+
+        })
+    },[])
+
 
     
 
@@ -36,19 +55,23 @@ function Dashboard(){
 
 					
             <div className="row">
-                <DashboardTopItems title="Products in Data Base" amount="135" icon="primary"/>
+                <DashboardTopItems title="Products in Data Base" amount={countProducts} icon="fas fa-clipboard-list" color="primary"/>
 
-                <DashboardTopItems title="Amount in products" amount="$546.456" icon="success"/>
+                <DashboardTopItems title="Amount in products" amount={`$${totalPrice}`} icon="fas fa-dollar-sign" color="success"/>
                 
-                <DashboardTopItems title="Users quantity" amount= {count} icon="warning" />
+                <DashboardTopItems title="Users quantity" amount= {countUsers} icon="fas fa-user" color="warning" />
+
+                <DashboardTopItems title="Amount of categories" amount= {amountCategories} icon="fas fa-clipboard-list" color="primary" />
+
             </div>
 
 			<Router>
                 <div className="row">
-                    <DashboardContainer title="Last product in Data Base">
+                    <DashboardContainer title={lastProduct.name}>
                         <LastProduct 
-                            description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, consequatur explicabo officia inventore libero veritatis iure voluptate reiciendis a magnam, vitae, aperiam voluptatum non corporis quae dolorem culpa exercitationem ratione?"
-                            detail="View product detail"
+                            description={lastProduct.detail}
+                            img={lastProduct.imgUrl}
+                            detail={`http://localhost:3000/productos/detail/${lastProduct.id}`}
                         />
                     </DashboardContainer>
 
