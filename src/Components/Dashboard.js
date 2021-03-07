@@ -4,6 +4,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import DashboardTopItems from './Cards/DashboardTopItem'
 import LastProduct from './Cards/DashboardLeftItem'
@@ -12,6 +13,19 @@ import DashboardRightItem from "./Cards/DashboardRightItem";
 
 
 function Dashboard(){
+    const [users, setUsers] = useState([])
+    const [count, setCount] = useState()
+    useEffect(()=>{
+        fetch('http://localhost:3000/api/users')
+        .then(response => response.json())
+        .then(data => {
+            setCount(data.meta.count)
+            setUsers(data.data.users)
+        })
+        
+    },[])
+
+    
 
     return(
         <div className="container-fluid">	
@@ -26,7 +40,7 @@ function Dashboard(){
 
                 <DashboardTopItems title="Amount in products" amount="$546.456" icon="success"/>
                 
-                <DashboardTopItems title="Users quantity" amount="38" icon="warning" />
+                <DashboardTopItems title="Users quantity" amount= {count} icon="warning" />
             </div>
 
 			<Router>
