@@ -30,16 +30,18 @@ function Dashboard(){
     const [lastProduct, setLastProduct] = useState([]);
     const [totalPrice, setTotalPrice] = useState();
     const [amountCategories, setAmountCategories] = useState();
+    const [categories, setCategories]= useState([]);
+
     useEffect(()=>{
         fetch('http://localhost:3000/api/products')
         .then(response => response.json())
         .then(data =>{
-            setProducts(data.data.products)
-            setCountProducts(data.meta.count)
-            setLastProduct(data.meta.lastProduct)
-            setTotalPrice(data.meta.totalPrice)
-            setAmountCategories(data.meta.amountCategories)
-
+            setProducts(data.data.products);
+            setCountProducts(data.meta.count);
+            setLastProduct(data.meta.lastProduct);
+            setTotalPrice(data.meta.totalPrice);
+            setAmountCategories(data.meta.amountCategories);
+            setCategories(data.meta.categories);
         })
     },[])
 
@@ -78,17 +80,17 @@ function Dashboard(){
                     <DashboardContainer title="Categories in Data Base">
                         <div className="card-body">
                             <div className="row">
-                                <DashboardRightItem category="Category 01" link='/'/>
-                                <DashboardRightItem category="Category 02" link='/'/>
-                                <DashboardRightItem category="Category 03" link='/'/>
-                                <DashboardRightItem category="Category 04" link='/'/>
-                                <DashboardRightItem category="Category 05" link='/'/>
-                                <DashboardRightItem category="Category 06" link='/'/>
-                                <DashboardRightItem category="Category 07" link='/'/>
-                                <DashboardRightItem category="Category 08" link='/'/>
+                                {categories.map((category, i)=> <DashboardRightItem name={category[0].name} amount={category[0].amount} link='/'/> )}
                             </div>
                         </div>
                     </DashboardContainer>		
+                    <DashboardContainer title="Product list">
+                        <div className="card-body">
+                            <div className="row">
+                                {products.map((product, i)=> <DashboardRightItem name={product.name} link='/'/> )}
+                            </div>
+                        </div>
+                    </DashboardContainer>
                 </div>
             </Router>		
         </div>
