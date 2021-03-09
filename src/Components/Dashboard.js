@@ -49,8 +49,8 @@ function Dashboard(){
     
 
     return(
-        <div className="container-fluid">	
-
+	
+        <>
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800">App Dashboard</h1>
             </div>
@@ -63,37 +63,38 @@ function Dashboard(){
                 
                 <DashboardTopItems title="Users quantity" amount= {countUsers} icon="fas fa-user" color="warning" />
 
-                <DashboardTopItems title="Amount of categories" amount= {amountCategories} icon="fas fa-clipboard-list" color="primary" />
+                <DashboardTopItems title="Amount of categories" amount= {amountCategories} icon="fas fa-wine-glass-alt" color="danger" />
 
             </div>
 
-			<Router>
-                <div className="row">
-                    <DashboardContainer title={lastProduct.name}>
-                        <LastProduct 
-                            description={lastProduct.detail}
-                            img={lastProduct.imgUrl}
-                            detail={`http://localhost:3000/productos/detail/${lastProduct.id}`}
-                        />
-                    </DashboardContainer>
 
-                    <DashboardContainer title="Categories in Data Base">
-                        <div className="card-body">
-                            <div className="row">
-                                {categories.map((category, i)=> <DashboardRightItem name={category[0].name} amount={category[0].amount} link='/'/> )}
-                            </div>
+            <div className="row">
+                <DashboardContainer title={lastProduct.name}>
+                    <LastProduct 
+                        description={lastProduct.detail}
+                        img={lastProduct.imgUrl}
+                        detail={`http://localhost:3000/productos/detail/${lastProduct.id}`}
+                    />
+                </DashboardContainer>
+
+                <DashboardContainer title="Categories in Data Base">
+                    <div className="card-body">
+                        <div className="row">
+                            {categories.map((category, i)=> <DashboardRightItem name={category[0].name} amount={category[0].amount} link='/'/> )}
                         </div>
-                    </DashboardContainer>		
-                    <DashboardContainer title="Product list">
-                        <div className="card-body">
-                            <div className="row">
-                                {products.map((product, i)=> <DashboardRightItem name={product.name} link='/'/> )}
-                            </div>
+                    </div>
+                </DashboardContainer>		
+                <DashboardContainer title="Product list">
+                    <div className="card-body">
+                        <div className="row">
+                            {products.map((product, i)=> <DashboardRightItem name={product.name} link='/'/> )}
+                            <DashboardRightItem name="Next" link='/'/>
                         </div>
-                    </DashboardContainer>
-                </div>
-            </Router>		
-        </div>
+                    </div>
+                </DashboardContainer>
+            </div>
+
+            </>
     )
 }
 
