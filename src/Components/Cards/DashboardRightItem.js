@@ -14,7 +14,6 @@ function DashboardRightItem({name, amount, link}){
             </Link>
         </div>
     )
-
 }
 
 export default DashboardRightItem;

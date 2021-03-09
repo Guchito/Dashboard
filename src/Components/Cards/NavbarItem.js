@@ -1,6 +1,6 @@
 import { Link  } from "react-router-dom";
 
-function NavbarCard({name, icon, link}){
+function NavbarItem({name, icon, link}){
     return(		
     <li className="nav-item">
     <Link className="nav-link" to={link}>
@@ -10,4 +10,4 @@ function NavbarCard({name, icon, link}){
     )
 }
 
-export default NavbarCard;
+export default NavbarItem;
