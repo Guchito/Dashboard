@@ -32,11 +32,14 @@ function Dashboard(){
     const [amountCategories, setAmountCategories] = useState();
     const [categories, setCategories]= useState([]);
 
+    const [ previousPage, setPreviousPage]= useState(null)
+    const [ currentPage, setCurrentPage]= useState('http://localhost:3000/api/products?page=1')
+    const [ nextPage, setNextPage]= useState(null)
+
     useEffect(()=>{
         fetch('http://localhost:3000/api/products')
         .then(response => response.json())
         .then(data =>{
-            setProducts(data.data.products);
             setCountProducts(data.meta.count);
             setLastProduct(data.meta.lastProduct);
             setTotalPrice(data.meta.totalPrice);
@@ -44,6 +47,23 @@ function Dashboard(){
             setCategories(data.meta.categories);
         })
     },[])
+
+    useEffect(() => {
+
+        fetch(currentPage)
+            .then((res)=> res.json())
+            .then((data)=>{
+                setPreviousPage(data.meta.previousPage)
+                setCurrentPage(data.meta.currentPage)
+                setNextPage(data.meta.nextPage)
+                setProducts(data.data.products)
+            })
+    }, [currentPage] )
+
+    const changeCurrentPage = (pageAddress, e) => {
+        setCurrentPage(pageAddress)
+        e.preventDefault()
+    }
 
 
     
@@ -88,7 +108,15 @@ function Dashboard(){
                     <div className="card-body">
                         <div className="row">
                             {products.map((product, i)=> <DashboardRightItem name={product.name} link='/'/> )}
-                            <DashboardRightItem name="Next" link='/'/>
+                            <div className="col-lg-6 mb-4">
+                                <Link to='/' onClick={ (e)=> changeCurrentPage(nextPage ? nextPage : 'http://localhost:3000/api/products?page=1', e) } aria-label="Next">
+                                    <div className="card bg-info text-white shadow">
+                                        <div className="card-body category-body">
+                                            <div>Next</div>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </DashboardContainer>
