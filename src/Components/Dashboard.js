@@ -109,7 +109,7 @@ function Dashboard(){
                         <div className="row">
                             {products.map((product, i)=> <DashboardRightItem name={product.name} link='/'/> )}
                             <div className="col-lg-6 mb-4">
-                                <Link to='/' onClick={ (e)=> changeCurrentPage(nextPage ? nextPage : 'http://localhost:3000/api/products?page=1', e) } aria-label="Next">
+                                <Link to='/' onClick={ (e)=> changeCurrentPage(nextPage || 'http://localhost:3000/api/products?page=1', e) } aria-label="Next">
                                     <div className="card bg-info text-white shadow">
                                         <div className="card-body category-body">
                                             <div>Next</div>
